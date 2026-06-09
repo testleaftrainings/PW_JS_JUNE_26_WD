@@ -1,0 +1,215 @@
+Session Agenda Week1Day2
+
+1. Data Types in JavaScript -                         20 min
+2. Breakout -                                         20 min
+3. Variable declartion with var,let and const -       40 min
+4. Operators -                                        20 min
+5. Breakout-                                          20 min
+
+
+
+Naming Conventions in JavaScript:
+--------------------------------
+
+1) File Names : camelCase [Start with a lowercase letter]
+
+Example:
+
+loginPage.js
+userProfile.js
+
+2) Variables : camelCase [Start with a lowercase letter]
+
+Example:
+
+isActive
+userName
+totalAmount
+
+3) Classes : PascalCase [Starts with Uppercase]
+
+Example:
+
+class LoginPage { }
+class UserService { }
+
+
+Data Types in JavaScript: 
+-------------------------
+ Defines the type of data that can be stored in a variable, such as numbers, string etc.
+
+Primitive DT
+--------------
+
+ They are the built-in data types in JavaScript that store single values and are immutable (value cannot be changed)
+
+1. number  
+
+Used to store numeric values, including integers and decimals.
+ex: let age = 25
+
+
+2. string
+
+Used to store textual data enclosed in quote.
+ex: let name = "John"
+
+3. boolean
+
+Used to store logical values: true or false
+ex: let isActive = true
+
+4. undefined
+
+Represents a variable that has been declared but not assigned a value
+ex: let x
+
+5. null
+
+Represents the intentional absence of any value
+ex: let data = null
+
+6. bigInt 
+
+Used to store very large integer values that are beyond the safe range of the Number data type (-(2⁵³ - 1) to (2⁵³ - 1))
+ex: let bigNum = 12345678901234567890n
+
+
+Non Primitive DT
+----------------
+
+Non-primitive data types store multiple values and are accessed through references rather than storing the actual value 
+directly.
+
+1. Object
+
+Used to store data as key-value pairs
+ex: let person = { name: "John", age: 25 };
+
+
+2. Array
+
+Used to store multiple values in a single variable as an ordered collection
+ex: let colors = ["Red", "Blue", "Green"]
+
+
+Variable declaration with Var, Let and const
+--------------------------------------------
+
+Variable declaration means creating a variable to store data in memory.
+
+// Declaration : creating variable
+var name
+
+// Initialization :assigning value
+name = "Ramya"
+
+
+// Declaration + Initialization
+var age = 25
+
+console.log(name); // Sindhu
+console.log(age);  // 25
+
+
+1) Variable declaration with var Keyword
+
+var-> can be redeclared and reassigned
+
+var name = "John";
+var name = "David"; // Redeclared
+name = "Sam";       // Reassigned
+
+2) Variable declaration with let Keyword
+
+let-> cannot be redeclared but can be reassigned
+
+let age = 25;
+// let age = 35;    // Redeclaration ✘
+age = 30;           // Reassigned ✔
+
+
+3) Variable declaration with const Keyword
+
+const-> cannot be redeclared and cannot be reassigned
+
+const pi = 3.14;
+// const pi = 22/7; // Redeclaration ✘
+// pi = 3.14159;    // Reassignment ✘
+
+
+Hoisting
+--------
+
+Hoisting is the default behavior of JavaScript where declarations are moved to the 
+top of their scope during the memory creation phase before execution.
+
+1) var -> Hoisted and initialized with undefined
+
+console.log(name); // undefined
+var name = "John";
+
+2) let-> let declarations are hoisted but not initialized.
+         Accessing them before declaration results in a ReferenceError (Temporal Dead Zone).
+
+console.log(age); // ReferenceError
+
+let age = 25;
+
+3) const-> const declarations are hoisted but not initialized. 
+           Accessing them before declaration results in a ReferenceErro (Temporal Dead Zone)
+
+TDZ(Temporal dead zone)-> The time period between hoisting and initialization of a variable, where
+it cannot be accessed.
+
+Scoping
+-------
+
+visibility or accessibility of the variable in the code.
+
+Types of scope:
+--------------
+
+1) Global scope → Variables declared outside any function or block are accessible from anywhere in the program.
+
+ex:
+
+let company = "TestLeaf"; //Global declaration
+
+function display() {
+    console.log(company); //Testleaf
+}
+
+display();             // TestLeaf
+console.log(company);  // TestLeaf
+
+
+2) Function scope → Variables declared inside a function are accessible only within that function.
+
+function display() {
+    var name = "John";
+    console.log(name); // John
+}
+
+display();
+
+// console.log(name); // ReferenceError
+
+3) Block scope → Variables declared with let or const inside a block {} are accessible only within that block.
+
+if (true) {
+    let age = 25;
+    const city = "Chennai";
+
+    console.log(age);  // 25
+    console.log(city); // Chennai
+}
+
+// console.log(age);  // ReferenceError
+// console.log(city); // ReferenceError
+
+
+Summary:
+
+var-> function scoped
+let and const-> block scoped
