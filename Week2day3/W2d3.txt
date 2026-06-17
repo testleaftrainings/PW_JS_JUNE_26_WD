@@ -1,0 +1,215 @@
+📑 Agenda for Week2 day 03-Introduction to DOM and CSS Selectors
+
+10:00 to 10:20 -> Playwright config file walkthrough
+10:20 to 10:50 -> DOM Basics
+10:50 to 11:00 -> Break
+11:00 to 11.40 -> CSS Selectors
+11.40 to 12:00 -> Break out
+
+
+The Playwright Config File is the central configuration file of a Playwright project
+It defines how your tests should run, which browsers to use, timeouts, retries, reporters, 
+screenshots, videos, traces, and many other settings.
+
+testDir-> Specifies where test files are located.
+
+timeout-> Maximum time allowed for a single test.
+
+retries-> Number of times Playwright reruns a failed test
+
+workers-> Controls parallel execution.
+
+fullyParallel->Run tests in parallel.
+
+forbidOnly->Prevents accidental commits of .only
+
+process.env->A Node.js object containing environment variables. 
+process.env.CI->Returns the value of the CI environment variable.
+
+Local Machine:
+--------------
+process.env.CI = undefined (usually)
+forbidOnly: !!process.env.CI
+forbidOnly: false, Hence test.only() is allowed in local
+
+CI Pipeline (Jenkins/GitHub Actions/Azure DevOps):
+-------------------------------------------------
+forbidOnly: !!process.env.CI
+process.env.CI = "true"  //Error: test.only is not allowed and Fails execution in Pipeline
+forbidOnly: true
+
+! (Single NOT):Opposite boolean value
+--------------------------------------
+!true  -> false
+!false -> true
+
+!! (Double NOT):Converts any value into a boolean:
+--------------------------------------------------
+
+!!undefined -> false  //hence .only is allowed in local
+!!0         -> false
+!!""        -> false
+!!"hello"   -> true
+!!1         -> true
+
+reporter-> Generates test reporter
+
+use Block-> Settings inside use apply to every test
+
+ex: use: {
+  headless: false, //headless: true(Browser runs in background.)
+  screenshot: 'on',
+  video: 'on',
+  trace: 'on'  //Useful for debugging failures.
+}
+
+projects (multiple browsers)->Controls browser choice and execution configuration.
+
+
+Playwright project structure:
+-----------------------------
+Project
+│
+├── tests
+├── playwright.config.ts
+├── package.json
+├── node_modules
+├── test-results
+├── playwright-report
+└── .gitignore
+
+tests -> Contains all test scripts/spec files.
+ex: Login.spec.ts
+
+playwright.config.ts -> Central configuration file for Playwright execution.
+ex: Browser settings
+Retries
+Timeouts
+Reporters
+Projects
+
+package.json -> Defines project dependencies.
+{
+  "devDependencies": {
+    "@playwright/test": "^1.55.0"  //Install 1.55.0 or any compatible newer version.
+  }
+}
+
+
+package-lock.json -> Locks the exact versions of installed dependencies across all environments.
+
+node_modules -> Stores all installed npm packages(automatically created-npm install)
+Playwright
+TypeScript
+doten
+
+test-results -> Stores execution artifacts generated during test runs.
+ex:Screenshots
+Videos
+Traces
+Failure logs
+
+playwright-report -> Stores HTML execution reports.
+ex: npx playwright show-report
+
+.gitignore -> Prevents unwanted files/folders from being committed to Git.
+
+
+
+DOM Structure [Document object model]:
+--------------
+DOM is the browser's representation of a web page as a tree of elements that JavaScript and 
+automation tools can access and manipulate.
+
+
+<html>
+  <head>
+    <title>Testleaf Page</title>
+  </head>
+  <body>
+    <div>
+      <h1>Welcome to Testleaf</h1>
+      <p>This is a sample paragraph.</p>
+
+      <!-- Label and Textbox -->
+      <label for="username">Enter Name:</label>
+      <input type="text" id="username" name="username">
+
+    </div>
+  </body>
+</html>
+
+
+3 ways to open DOM:
+-------------------
+
+ctrl+Shift+I
+right click and say inspect
+(Browser)->Settings->more->Developer tools
+
+-------------------------------------------------------------------------------------
+
+CSS Selectors [Cascading style sheet]: 
+-------------------------------------
+CSS is used for style and design a web page
+CSS selectors are fast because browsers understand them natively and can locate elements quickly.
+
+1. By ID :
+Syntax : #idValue 
+Example : #username
+
+2. By Class :
+Syntax : .classValue
+Example : .inputLogin
+
+3. By Attribute :
+[tagName[attribute='value']]
+Example : input[id='username']
+
+4. Descendant Combinator 
+Example : form input
+
+5. Child Combinator
+Example : form > input
+
+-------------------------------------------------------------------------------------
+
+Attribute priority :
+-----------------------
+1️⃣ aria-label - Accessibility-based, stable, first choice
+2️⃣ id - Unique, fast
+3️⃣ name -Usually stable, not always unique
+4️⃣ class - For styling, changes often → least reliable
+
+Playwright locator methods :
+----------------------------
+
+nth(), first(), and last() are Playwright Locator API methods.
+
+They help you choose which element to act on when a locator matches multiple elements.
+
+Strict Mode Violation Error :
+-----------------------------
+When a locator matches more than one element, Playwright throws an error to prevent ambiguity.
+To fix this, use nth(), first(), or last() to specify which element you want to interact with.
+
+-------------------------------------------------------------------------------------
+Classroom Activity :
+----------------------
+
+Write a Playwright script to perform the following actions on the Salesforce login page:
+1. Navigate to the Salesforce login page.
+2. Use different CSS selector strategies (ID, Class, Attribute) to locate the username and password fields.
+3. Enter sample credentials into the username and password fields.
+4. Click the login button using a CSS selector.
+5. Verify that the login was successful by checking for a specific element on the landing page.
+
+https://login.salesforce.com/?locale=in
+Sample credentials :
+Username:dilipkumar.rajendran@testleaf.com
+Password: 
+
+---------------------------------------------------------------------------------------
+
+
+
