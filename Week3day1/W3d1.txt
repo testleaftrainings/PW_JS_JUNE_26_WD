@@ -1,0 +1,278 @@
+📑 Agenda for Week3 day 01-Advanced Xpath and Playwright Locators
+
+10:00 to 10:30 -> Recap and Custom dropdown
+10:30 to 11:00 -> Advanced Xpath
+11:00 to 11.10 -> Break
+11.10 to 11:40 -> Playwright locators
+11.40 to 12:00 -> Breakout
+
+
+Code to maximize the screen:
+----------------------------
+
+Use in config: Applicable to all the tests in the playwright frame work.
+--------------
+
+  {
+  name: 'chrome',
+  use: {
+    browserName: 'chromium',
+    channel: 'chrome',
+    viewport: null, //disable the deafult viewport 1280x720
+    launchOptions: {
+      args: ['--start-maximized'],
+    },
+  },
+  }
+
+
+  Use in Script: custom viewport can be configured in script.
+  --------------
+
+  test.use({
+    viewport:{width:1020, height:800}
+})
+
+
+Custom DD:
+----------
+
+A custom dropdown is not a real HTML <select> element. It is usually built using <div>, <li>, 
+<span>, etc., so selectOption() will not work.
+
+Steps to Handle a Custom Dropdown:
+----------------------------------
+
+Click the dropdown to open it.
+Locate the desired option.
+Click the option.
+
+ex: await page.locator('#countryDropdown').click();
+    await page.locator('text=India').click();
+
+
+Advanced Xpaths / XPath Axes
+----------------------------
+
+XPath allows navigation in both forward and backward directions within the DOM.
+
+Forward Axes: child, descendant, following-sibling, following
+Reverse Axes: parent, ancestor, preceding-sibling, preceding
+
+When a page contains many matching elements (more than 5), using indexes such as (//input)[7] becomes
+difficult to maintain. In such cases, we use Advanced Relative XPath (XPath Axes) to build stable 
+locators based on relationships between elements.
+
+> parent to child
+> Grandparent to Grandchild
+> child to parent
+> Grandchild to Grandparent
+> ElderSibling and YoungerSibling
+> YoungerSibling to ElderSibling
+> Eldercousin to Youngercousin
+> Youngercousin to Eldercousin
+
+Parent-child : Xpath pattern based on parent/Grand parent to child relationships
+-------------
+
+1) Parent to child
+Syntax:
+( parent realtive xpath)/(tagName of child)
+EX: //form[@id='login']/p
+
+2) Grand Parent to Grand child
+Syntax: 
+GrandParent relative xpath//tagName of grand child
+Ex: (//form[@id='login']//label)
+
+3) Child to parent
+Syntax:
+Child relative xpath/parent::parent tagName
+Ex: //input[@id='username']/parent::p
+
+4) Grand child to Grand Parent
+Syntax:
+GrandChild relative xpath/ancestor::tagName of grand parent
+Ex: //input[@id='password']/ancestor::form
+
+
+Axes:  Xpath pattern based on Sibling and Cousin relationship
+-----
+
+5) Elder Sibling to younger Sibling
+Syntax:
+(Elder sibling relative xpath)/following-sibling::tagName of younger sibling
+Ex: //label[text()='Username']/following-sibling::input 
+
+6) Younger Sibling to Elder Sibling
+Syntax:
+Younger sibling relative xpath/preceding-sibling::tagName of Elder sibling
+Ex: //input[@id='username']/preceding-sibling::label
+
+7) Elder Cousin to Younger Cousin
+Syntax:
+Elder cousing relative xpath/following::tagName of younger Cousin
+Ex: //input[@id='username']/following::label
+
+
+8) Younger Cousin to Elder Cousin
+Syntax:
+Younger cousin xpath/preceding::tagName of Elder cousin
+Ex: //label[text()='Password']/preceding::input
+
+others:
+-------
+
+1) LAST CHILD
+syntax:
+-------
+(xpath of parent)/child-tagName[last()]
+
+<div>
+    <input id="user">
+    <input id="password">
+    <input id="email">
+</div>
+
+ex: Xpath
+//div/child::input[last()]    //o/p-> <input id="email">
+
+2) USING ITEM INDEX
+syntax:
+------- 
+(xpath)[index]
+
+ex: (//input[@type='text'])[2]    //o/p-> Returns the 2nd matching input.
+
+3) USING CHILD ITEM INDEX
+syntax:
+-------
+(parent-xpath)/child::tagName[index]
+
+ex: //form/child::input[3]
+
+4) LAST CHILD
+
+syntax:
+(xpath of parent)/child::tagName[last()]
+ex:
+//form/child::input[last()]
+
+5) LAST BUT ONE CHILD
+
+syntax:
+(xpath of parent)/child::tagName[last()-1]
+ex:
+//form/child::input[last()-1]   //Returns the second-last child.
+
+6) FIRST CHILD
+
+syntax:
+(xpath of parent)/child::tagName[1]
+ex:
+//form/child::input[1]   //Returns the first child.
+
+7) USING CHILD ITEM INDEX
+
+(parent-xpath)/child-tagName[index]
+ex: (parent-xpath)/child::tagName[index]
+
+8) Using And condition
+syntax:
+//tagName[@att1='v1' and @att2='v2']
+
+9)USING OR CONDITION
+syntax:
+//tagName[@att1='v1' or @att2='v2']
+
+10) Using contains()
+
+syntax: //tagName[contains(@attribute,'value')]
+Ex: //input[contains(@id,'user')]
+
+11) USING STARTS-WITH
+
+syntax: //tagName[starts-with(@attribute,'value')]
+ex: //input[starts-with(@id,'user')]
+
+12) Using text
+syntax: //tagName[text()='Exact Text']
+
+ex: //button[text()='Login']
+
+13) Normalize space
+
+syntax:
+//button[normalize-space()='Login'] //Works even if there are extra spaces/new lines.
+
+
+Playwright Locators:
+--------------------
+Playwright locators are built-in methods to find and interact with elements on a webpage. 
+They provide a more efficient and reliable way to locate elements compared to traditional methods 
+like XPaths or CSS selectors.
+
+
+Types of Playwright Locators:
+-----------------------------
+
+1) getByRole(): Uses accessibility roles to locate elements. 
+It is based on the ARIA (Accessible Rich Internet Applications) roles and is useful for finding elements
+that have specific roles, such as buttons, links, or form controls.
+
+Ex: await page.getByRole('button', { name: 'Login' }).click()
+
+2) getByText()
+Based on visible text of the element. 
+
+Ex: await page.getByText('Login').click()
+
+3) getByLabel()
+For input fields with label
+
+Ex: await page.getByLabel('Username').fill('admin')
+
+4)getByPlaceholder()
+For input fields with placeholder attribute
+
+Ex: await page.getByPlaceholder('Enter username').fill('admin')
+
+5) getByAltText()
+For images with alt text(alternate or equivalent text) attribute.
+ It is used to locate images based on their alt text, which is a descriptive text that provides 
+ information about the image for accessibility purposes.
+
+Ex: await page.getByAltText('Company Logo').click()
+
+6)getByTitle()
+For elements with title attribute 
+
+Ex: await page.getByTitle('Submit Button').click()
+
+7) getByTestId()
+For elements with data-testid attribute, commonly used in testing frameworks to uniquely identify 
+elements. morereliable than other locators because it is less likely to change during UI updates. 
+
+Ex: await page.getByTestId('login-button').click()
+
+Activity:
+---------
+
+Classroom 1: Write the typescript code to login to Salesforce application using Advanced Xpaths.
+------------
+
+URL : https://login.salesforce.com/
+Username: dilipkumar.rajendran@testleaf.com
+Password: TestLeaf@2025
+
+Classroom 2: Write the typescript code to automate the below testcase using Playwright locators.
+
+Url: https://parabank.parasoft.com/parabank/index.htm
+click on forgot login info? using getByRole locator
+cick on Parabank logo using getByAltText locator or click on parabank logo using getByTitle locator
+click on locations using getByText locator
+click on search icon in the navigated page using getByrole
+click on search textbox using getByPlaceholder and enter the location name as "chennai"
+
+
+
