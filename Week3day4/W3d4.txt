@@ -1,0 +1,136 @@
+📑 Agenda for Week3 day 04-Type Alias and Enumeration
+
+10:00 to 10:40 -> Type Alias
+10:40 to 11:00 -> Enum
+11:00 to 11.10 -> Break
+11.10 to 11:40 -> Optional parameter
+11.40 to 12:00 -> Breakout
+
+
+type Alias:
+-----------
+
+A type alias in TypeScript is a way to create a new name for an existing type. It allows you to 
+define a custom type that can be used throughout your codebase, making it easier to manage and 
+maintain complex types.
+
+type user ={
+firstname : string
+lastname : string
+mobnumber : number
+}
+
+let user1 :user ={firstname : 'sekar', lastname: 'y', mobnumber:987656778}
+let user2 :user={firstname : 'sruthi', lastname: 'r', mobnumber:807656770}
+
+
+types:
+------
+
+1. Union types
+2. Intersection types
+
+Union Types
+-----------
+
+Union Type allows a variable, parameter, or property to hold more than one type or value.
+
+type Id = string | number   
+
+let userId: Id;
+
+userId = "EMP101";   // valid
+userId = 1001;       // valid
+userId= true  //not valid
+
+console.log(userId) //1001
+
+Type Intersection
+-----------------
+
+Intersection type combines multiple types into one, meaning the value must satisfy all the types 
+together.
+
+ex:
+type User = { name: string }
+
+type Contact = { phone: number }
+
+type UserContact = User & Contact
+
+let UserContactdetails:UserContact={
+name:"kavitha",
+phone: 735808765
+}
+
+console.log(UserContactdetails.phone)
+
+Enum/Enumeration
+-----------------
+enum is a feature in TypeScript that allows you to define a set of named constants.
+
+enum types:
+----------
+Numeric enum(default)
+String enum
+Heterogenious enum
+
+Ex:
+enum environment{
+qa
+prod
+}
+
+let env:environment=environment.qa
+console.log(env)
+
+
+optional parameter:
+------------------
+
+An optional parameter allows a function to accept an argument optionally; if it isn't passed, its 
+value is undefined.
+
+function greet(name: string, city?: string) {
+  console.log(`Hello ${name}`);
+}
+
+greet("Bala");            
+greet("Bala", "Chennai"); 
+
+Classroom activity
+ -----------------
+
+ 1.Create a TypeScript program to handle different payment methods using a Union Type.
+
+- Create a function that accepts only specific payment methods.
+
+- Create a type alias called PaymentMethod that allows only "UPI", "CreditCard", or "PayPal".
+
+- Write a function makePayment that takes a parameter of type PaymentMethod and prints which payment
+  method is chosen.
+
+- Call the function with "UPI" and "CreditCard" as arguments.
+
+2. Create a TypeScript program that defines an enum for different application environments and a
+function to simulate running tests on these environments.
+
+- Create an enum named `Environment` with four values representing different stages of a
+software development process: `LOCAL`, `DEVELOPMENT`, `STAGING`,
+`PRODUCTION`.
+
+- Write a function named `runTests` that accepts an argument of type `Environment`. The
+function should print a message indicating the environment against which the tests are
+running.
+
+- The function `runTests` should be specified to return `void`, highlighting that it does not
+return any data.
+
+- Include example calls to `runTests` using different enum values to demonstrate
+the function's functionality.
+
+Feedback form for Week3:
+------------------------
+
+https://forms.office.com/r/DKBkZJAAhq
+
