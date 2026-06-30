@@ -1,0 +1,103 @@
+📑 Agenda for Week 4 day 02 : Frame object and windows
+
+10:00 to 10:05 -> Recap
+10:05 to 10:30 -> frame objects
+10:30 to 11:00 -> Window handling(sequential approach)
+11.00 to 11:10 -> Break
+11.10 to 11:40 -> Window handling(concurrent approach)
+11.40 to 12:00 -> Break out
+
+>> FrameObject- Gets the frame object using name, URL, or other properties to interact with webelement
+
+await page.frame({url:'https://www.leafground.com/default.xhtml'})?.locator("#Click").click()
+or
+const frame = page.frame({ url: 'https://www.leafground.com/default.xhtml'});
+await frame?.locator("#Click").click()
+
+Optional chaining (?.) allows safe access to properties or methods by returning undefined instead of
+throwing an error when the object is null or undefined.
+
+?. => optional chaining (checks if value exists - not null/undefined)
+   if (frame) {
+      await frame.locator("#Click").click()
+   } 
+
+
+>> Difference between FrameObject and frameLocator
+
+| FrameObject                                     | FrameLocator                                 |
+| ----------------------------------------------- | ---------------------------------------------|
+| Represents the iframe itself.                   | Helps locate elements inside an iframe.      |
+| Get it using `page.frame()`.                    | Get it using `page.frameLocator()`.          |
+| You first get the frame, then locate elements.  | You directly locate elements inside the frame|
+| Less preferred for UI automation.               | Recommended by Playwright for UI automation. |
+| No built-in auto-wait for element interactions. | Automatically waits for the frame and element|
+
+
+>> Difference between optional chaining and optional parameter
+
+| Optional Chaining (`?.`)                   | Optional Parameter (`?`)                      |
+| ------------------------------------------ | --------------------------------------------- |
+| Used while accessing data                  | Used while defining function parameters       |
+| Prevents runtime errors                    | Makes a parameter optional                    |
+| Returns `undefined` if value doesn't exist | Function can be called without that parameter |
+| Used with objects                          | Used with functions                           |
+
+
+Window Handling: Managing and interacting with multiple browser tabs or windows using Page objects, 
+enabling the automation script to switch and perform actions in the correct window.
+
+Window Handling using Event Listener + Promise
+----------------------------------------------
+
+Create Promise - Wait for new window(event listener)
+Trigger Action - Perform Click action
+Resolve Promise - Switch control parent → child window 
+
+
+1) Sequential Approach
+
+Handle windows one by one, waiting for each window/tab to open and complete actions before moving to
+the next.
+Simple, predictable, easy to debug.
+
+
+2) Concurrent Approach
+
+Handle multiple windows/tabs at the same time, without waiting for one to finish before starting another.
+Uses Promise.all() to run multiple operations concurrently.
+
+const [childPage] = await Promise.all([context.waitForEvent('page'),page.locator(`//div[text()="POCO C71 (Desert Gold, 
+64 GB)"]`).click()])
+
+
+Note: Concurrent Approach is Preferred in Playwright because it ensures no events are missed, 
+even when actions run fast.
+
+context.pages();
+---------------
+Returns all open pages in the context
+
+page.bringToFront()
+--------------------
+Brings a tab to the foreground and makes it the active page, but does not close it — used when 
+multiple tabs are open and you want to interact with a specific one.
+
+swtich -> child window
+
+page.close()
+------------
+
+Closes the current tab/page completely and removes it from the browser context — used when the tab 
+is no longer needed.
+
+
+Classroom
+---------
+
+https://www.leafground.com/window.xhtml 
+-> click on Open button
+-> switch to child page
+-> Child Page -> Enter mail id
+-> close childpage
+-> click on open multiple in the main page                                             
