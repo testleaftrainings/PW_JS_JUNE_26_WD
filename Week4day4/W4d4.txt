@@ -1,0 +1,189 @@
+📑 Agenda for Week 4 day 04 : Data Parameterization(CSV), Hooks and Annotations.
+
+10:00 to 10:05 -> Recap
+10:05 to 10:40 -> CSV
+10:40 to 11:00 -> Breakout
+11.00 to 11:10 -> Break
+11.10 to 11:40 -> Hooks(pre and post conditions)
+11.40 to 12:00 -> Break out
+
+
+Data Parameterization: 
+---------------------
+
+Feeding test data from external files instead of hardcoding values.
+Useful for **data-driven testing**
+
+Features:
+---------
+
+Avoid hard-coded test data
+→ Test data is externalized, making tests flexible and reusable.
+
+Test multiple scenarios using a single test
+→ Same test logic can be executed with different data sets.
+
+Improve test coverage
+→ More inputs can be validated without writing new test cases.
+
+Reduce duplicate test cases
+→ One parameterized test replaces many similar tests.
+
+Improve maintainability
+→ Changes in data do not require code changes in test logic.
+
+
+ways of implementation
+----------------------
+1)CSV :Handling .csv files for bulk data-driven tests.
+2)JSON :Reading and processing JSON files for dynamic test data.
+3)ENV :Utilizing .env files for environment-specific data.
+
+
+CSV (Comma separated value):
+----------------------------
+
+Reading test data from CSV files and running tests with multiple data sets.
+CSV is widely used in organizations for bulk test data.
+
+Syntax:
+-------
+EX:
+testData.csv
+
+tcid,username,password
+1,demoSalesManager,crmsfa
+2,demoCSR,crmsfa
+
+steps to read data from CSV file:
+----------------------------------
+
+Step 1:
+Install csv : command  npm install csv-parse.
+
+Step 2:
+Create a .csv file under Data folder.
+
+Step 3:
+Create a .spec.ts and import data from csv file similar to the sample script.
+
+Step 3:
+Use the imported data in your test cases for validation.  
+
+Step 4:
+Run the test to see data-driven testing in action.
+
+
+Installation commands:
+----------------------
+command to install csv-parse:
+npm install csv-parse
+
+command to install fs:
+npm install fs
+
+command to install path:
+npm install path
+
+syntax to read file synchronously and parse it to Json format
+---------------------------------------------------
+
+let data:any[]=parse(fs.readFileSync(path.join(__dirname,"folder path")),{columns:true, skip_empty_lines:true})
+
+/* path.join(__dirname, ...) → absolute path 
+fs.readFileSync() → reads file synchronously
+parse/sync → converts csv to Javascript objects
+Now for...of works  
+
+1. let value:any[]
+
+value → variable name
+any[] → array of any type (TypeScript)
+Means: value will store array of objects
+
+2. parse(...)
+
+Function from csv-parse
+Converts CSV → JavaScript data
+
+3. fs.readFileSync(...)
+
+Reads CSV file
+Returns file content (buffer/string)
+
+4. path.join(__dirname,"../../../data/lf.csv")
+
+Builds absolute path
+__dirname → current file location
+../../../ → go up 3 folders
+Points to data/lf.csv
+
+5. { columns: true }
+
+Converts CSV rows into object format
+Uses header as keys
+
+CSV file is read synchronously using fs, parsed into JavaScript objects using csv-parse, and the 
+file path is constructed using path.join with __dirname to form an absolute path.
+
+CSV file → readFileSync → parse → array of objects → stored in value
+
+
+Classroom Activity 1: Read Data from CSV
+
+https://leaftaps.com/opentaps/control/main
+
+Credentials:
+
+Username	Password
+DemoCSR	  crmsfa
+DemoCSR2	crmsfa
+
+Steps:
+------
+
+Create a utils folder.
+Create a loginData.csv file inside the utils folder.
+Add the username and password to the CSV file.
+Read the CSV data in Playwright.
+Create a test to perform login using the data from the CSV file.
+-----------------------------------------------------------------------------------------------------
+
+Test Annotation(Hooks)
+----------------------
+Hooks are special methods in Playwright that execute before or after test execution to handle 
+setup and cleanup activities, thereby controlling the execution flow.
+
+Types of Hooks:
+---------------
+
+1) test.beforeAll
+→ Executes once before all tests in a file
+  Used for global setup (ex: data connectivity or test data setup)
+
+2) test.beforeEach
+→ Executes before every test
+  Used for common pre-conditions (ex: login and navigation)
+
+3) test modules
+
+4) test.afterEach
+→ Executes after every test
+  Used for cleanup (ex: logout, clearing data, screenshots on failure)
+
+4) test.afterAll
+→ Executes once after all tests
+  Used for global cleanup (ex: closing connections, removing test data)
+
+| Hook           | When it runs          | Use Case                              |
+| -------------- | --------------------- | ------------------------------------- |
+| `beforeAll()`  | Once before all tests | Start server, create test data        |
+| `beforeEach()` | Before every test     | Navigate to app, login                |
+| `afterEach()`  | After every test      | Logout, take screenshot on failure    |
+| `afterAll()`   | Once after all tests  | Delete test data, close DB connection |
+
+
+Week4 JUNE Weekday batch:
+-------------------------
+
+https://forms.office.com/r/iPC4TdKsVU
