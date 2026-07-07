@@ -1,0 +1,159 @@
+Agenda for Week 5 day 01 : Data Parameterization(JSON), Annotations
+
+10:00 - 10:45 - JSON 
+10:45 - 11:30 - Annotations
+11:30 - 11:40 - break
+11:40 - 12 :00 -breakout
+
+Data Parameterization: 
+---------------------
+
+Feeding test data from external files instead of hardcoding values.
+Useful for **data-driven testing**
+
+Features:
+---------
+
+Avoid hard-coded test data
+→ Test data is externalized, making tests flexible and reusable.
+
+Test multiple scenarios using a single test
+→ Same test logic can be executed with different data sets.
+
+Improve test coverage
+→ More inputs can be validated without writing new test cases.
+
+Reduce duplicate test cases
+→ One parameterized test replaces many similar tests.
+
+Improve maintainability
+→ Changes in data do not require code changes in test logic.
+
+
+ways of implementation
+----------------------
+
+1)JSON :Reading and processing JSON files for dynamic test data.
+2)CSV :Handling .csv files for bulk data-driven tests.
+3)ENV :Utilizing .env files for environment-specific data.
+
+JSON (JavaScript object notation):
+----------------------------------
+
+It is a lightweight data format used for storing and exchanging data
+Structure is a key value pair (like objects)
+
+ex: used for API testing 
+
+syntax: 
+-------
+Ex:
+Leaf.Json
+
+{
+    "TestCaseID":"Tc001",
+    "Username":"demosalesmanager",
+    "Password": "crmsfa"
+}
+
+steps to read data from Json file:
+----------------------------------
+
+Step 1:
+Create a .json file under Data folder
+Step 2:
+Create a .spec.ts and import data from json file similar to the sample script.
+Step 3:
+Use the imported data in your test cases for validation.    
+Step 4:
+Run the test to see data-driven testing in action. 
+
+
+Classroom1:
+https://login.salesforce.com/?locale=in
+
+testID
+dilipkumar.rajendran@testleaf.com
+TestLeaf@2025
+
+yuvarani.sekar@testleaf.com
+Testleaf@2027
+
+steps:
+-> create folder as utils/data -> create json file 
+-> pass values in json file
+-> Create Test 
+
+Test Annotations:
+-----------------
+
+Test annotations are used to configure the behavior of a test during execution
+
+test.only() -> Execute only this test and ignore the rest.
+ex:
+test.only('test name', async ({ page }) => {
+   // test steps
+});
+
+
+test.skip() -> is a Playwright test annotation used to skip a specific test, 
+so Playwright will not execute it.
+ex:
+test.skip('test name', async ({ page }) => {
+   // test steps
+});
+
+
+test.fail() -> is a Playwright test annotation used when you expect the test to fail.
+ex:
+test.fail('test name', async ({ page }) => {
+   // test steps
+});
+
+Note:
+-----
+If the test fails → Playwright marks it as passed (because failure was expected).
+If the test passes → Playwright marks it as failed.
+
+
+test.fixme() -> is a Playwright test annotation used when a test is known to be broken or
+ not ready, and you want Playwright to skip it temporarily
+ex:
+test.fixme('test name', async ({ page }) => {
+  // test steps
+});
+
+
+test.use() -> override context /test.use() is used to apply specific configuration settings
+ for a test or group of tests
+ex:
+test.use({ storageState: 'loginAuth.json' });
+
+test('Open Home Page', async ({ page }) => {
+  await page.goto('https://example.com/home');
+});
+
+
+
+test.info -> it shows additional information/metadata about the test during execution of test.
+import { test, expect } from '@playwright/test';
+
+test('Login Test', async ({ page }) => {
+
+  console.log(test.info().title);      //Login Test
+
+  await page.goto('https://example.com');
+});  
+
+
+
+test.slow-> Playwright test annotation used to mark a test as slow, so Playwright increases the timeout for that test.
+ex:
+import { test, expect } from '@playwright/test';
+test('Slow loading page test', async ({ page }) => {
+
+  test.slow(); // marks this test as slow
+
+  await page.goto('https://example.com');
+  await page.waitForTimeout(20000); // simulate slow operation
+});
