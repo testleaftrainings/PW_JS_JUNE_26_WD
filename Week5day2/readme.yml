@@ -1,0 +1,66 @@
+📑 Agenda for Week5 day 02
+Understanding Env file
+Reading data from Env file
+Using Env data in Playwright tests
+Breakout
+Break
+Understanding Basics of OOPS
+
+
+Data Parameterization with Env file
+-----------------------------------
+
+A .env file (short for environment file) is a simple text file used to store 
+environment variables in the form of key-value pairs.
+
+It is commonly used in projects to separate configuration data (like URLs, API keys, database credentials, 
+secrets) from the actual application code.
+
+Syntax:
+-------
+Sample ENV (config.env)
+
+APP_URL=https://example.com
+USERNAME=demoUser
+PASSWORD=securePass123
+
+Step 1:
+Install dotenv command:  npm install dotenv
+
+Step 2:
+Create a .env file under Data folder.
+
+Step 3:
+Create a .spec.ts and import data from env file to test script. 
+
+Step 4:
+Use the imported data in your test cases for validation.
+dotenv.config({path:'data/qa.env'})
+Step 5:
+Run the test to see data-driven testing in action.
+
+To set the environment in terminal:
+-----------------------------------
+
+(Windows vs macOS)
+
+Action	    Windows (PowerShell)	      macOS / Linux
+Set env	    $env:envFile="Qa"	          export envFile=Qa
+Check env	  $env:envFile	              echo $envFile
+Unset env	  $env:envFile=""	            unset envFile
+---------------------------------------------------------------------------------------------------------
+
+Classroom1:
+https://login.salesforce.com/?locale=in
+
+testID
+dilipkumar.rajendran@testleaf.com
+TestLeaf@2025
+
+yuvarani.sekar@testleaf.com
+Testleaf@2026
+
+steps:
+-> create folder as utils/data -> create env file 
+-> pass values in env file
+-> Create Test 
