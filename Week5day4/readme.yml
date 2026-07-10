@@ -1,0 +1,161 @@
+Agenda for Week5 Day4 
+
+Inheritance:
+Exploring the concept of inheritance for code reuse.
+Examples: Implementing single and multilevel inheritance.
+breakout + break
+Polymorphism
+Method overloading
+Method overriding
+
+Inheritance : Inheritance is the process where a child class acquires properties and methods 
+from a parent class for code reusability.
+
+extend is the keyword used to inherit the properties.
+
+1. Single Inheritance :
+When a class inherits another class
+
+class Parent{}-> class Child{}
+
+
+2. Multilevel Inheritance :
+When a class inherits another class which is already inherited from another class
+
+class Grandparent{}->class Parent{}-> class Child{}
+
+
+3. Hierarchical inheritance 
+ When multiple classes inherits a single class
+
+ class Parent{}-> class Child1{}
+ class Parent{}-> class Child2{}
+
+
+4. Hybrid Inheritance
+A combination of two or more types of inheritnace (e.x : multilevel and Hierarchical)
+
+
+5.Multiple Inheritance
+When a derived class inherits more than one parent class
+
+Typescript does not support multiple inheritnace using classes.
+Can be achieved through interface.
+
+ClassRoom 1:
+------------
+
+Parent file
+Create class Browser
+Create 2 methods browserType(),browserVersion()
+
+1st Child 
+Create class Chrome 
+Create 1 method launchBrowser
+create object for Chrome
+
+2nd Child 
+Create class Edge
+Create 1 method launchBrowser
+create object for Edge
+
+
+Polymorphism: Polymorphism is the ability of a method to have different behaviors based on 
+the context or class.
+
+polymorphism->many+forms
+
+types:
+------
+
+1) Method overloading(compile time polymorphism)
+2) Method overriding(runtime polymorphism)
+
+
+Method overloading:
+------------------
+
+Method Overloading means having multiple methods with the same name but different parameters 
+(type, number, or order).
+It allows the same method name to perform different actions based on the input.
+
+TypeScript supports method overloading only at the type level (signatures), not true runtime 
+overloading like Java.
+You can declare multiple method signatures, But only one actual implementation is allowed
+
+
+class Calculator {
+  add(a: number, b: number): number;  //signature
+  add(a: string, b: string): string;  //signature
+
+  // single implementation-1
+  add(a: any, b: any): any {
+    return a + b;
+  }
+}
+
+or
+
+//single implementation-2
+add(a: number | string, b: number | string): number | string {
+
+if (typeof a === "number" && typeof b === "number") {
+return a + b;
+ } else {
+  return a.toString() + b.toString();
+ }
+ }
+
+const c = new Calculator();
+console.log(c.add(5, 10));       // 15
+console.log(c.add("Hi ", "All"))// Hi All
+
+
+
+Method overriding:
+------------------
+Method overriding is achieved using inheritance, where a child class provides its own 
+implementation for a method with the same name and parameters as defined in the
+ parent class.
+
+//Different browsers behave differently
+
+class Browser {
+    launch() {
+        console.log("Launching browser");
+    }
+}
+
+class Chrome extends Browser {
+    launch() {
+        console.log("Launching Chrome browser");
+    }
+}
+
+class Edge extends Browser {
+    launch() {
+        console.log("Launching Edge browser");
+    }
+}
+
+new Chrome().launch();
+
+a->b
+->c
+
+
+
+Classroom 1: Method overloading and Method overriding
+
+Overloading
+Create a class TextBox and implement method overloading for fill() with the following signatures:
+
+fill(text: string)
+fill(text: string, locator: string)
+Ensure a single implementation handles both cases appropriately.
+
+Overriding
+Create a parent class Browser with a method browserVersion().
+Create a child class Chrome that overrides browserVersion() and 
+prints a specific browser version.
+
