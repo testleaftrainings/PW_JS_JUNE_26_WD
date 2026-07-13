@@ -1,0 +1,84 @@
+Agenda for Week6 Day1
+Abstraction
+Interface
+break + breakout
+
+
+Abstraction:
+------------
+
+Abstraction means hiding implementation details and showing only essential functionality
+
+Reduce complexity
+Improves maintainability
+
+Ex: we use click and fill methods in the Automation Script
+  Abstraction is achieved by hiding locators and low-level implementation inside classes
+  (abstract/base classes) and exposing only business-level methods like login(), search().
+
+
+
+Abstraction-> contains interface, abstract class, concrete/normal class
+
+Interface -> fully abstract method -> we cannot have implemented methods
+interface can only extend another interface
+
+abstract class -> partial implementation-> contains both implemented and unimplemented methods
+0 to 100% abstract method
+we cannot create object for the abstract class
+we use abstract keyword followed by abstract class and abstract methods
+abstract class can extend another abstrace class
+abstract class can implement interface
+ 
+ EX:
+
+abstract class BasePage {
+    abstract login(user: string, pass: string): void;
+}
+
+class LoginPage extends BasePage {
+
+    login(user: string, pass: string): void {
+        console.log("Fill username");
+        console.log("Fill password");
+        console.log("Click login");
+    }
+}
+
+let page = new LoginPage();
+page.login("admin", "123");
+
+Interface:
+----------
+
+Interface is a contract that defines the structure of methods and properties, and its 
+implementation is provided by the class that implements it.
+
+Ex: interface Login {
+    login(): void;
+}
+
+class User implements Login {
+    login() {
+        console.log("Login successful");
+    }
+}
+
+let obj = new User();
+obj.login();
+
+>> Difference between Abstract and Interface:
+
+
+| Feature         | Abstract Class                           | Interface                               |
+| --------------- | ---------------------------------------- | --------------------------------------- |
+| Purpose         | Partial abstraction                      | Full abstraction                        |
+| Methods         | Can have implemented + abstract methods  | Only method declarations                |
+| Properties      | Can have variables with values           | Only declarations (no values)           |
+| Inheritance     | Class can extend only one abstract class | Class can implement multiple 
+                                                                interfaces |
+| Keywords        | `extends`                                | `implements`                            |
+| Object Creation | Cannot create object                     | Cannot create object                    |
+| Use Case        | When common logic is needed              | When only rules/structure needed        |
+
+classroom activity
