@@ -1,0 +1,47 @@
+📑 Agenda for Week6 Day2 - POM(Page Object Model)
+
+
+Intorduction to POM
+Creating LoginPage using constructor
+Breakout
+Build POM for the module(end-to-end page structure)
+Breakout
+
+
+POM: It is a design pattern for organizing the code in test automation.
+
+It helps to separate UI locators and interactions into dedicated page classes, instead of writing 
+everything inside test scripts.
+
+Each web page (or module) in the application is represented by a separate class and that class 
+contains locators and methods that act on that page.
+
+
+ex: 
+
+Loginpage --> WelcomePage --> HomePage --> LeadPage --> CreateLeadPage --> VerifyLead
+                                      ---> AccountPage --> CreateAccountPage -->VerifyAccount
+
+Features:
+---------
+
+Reusability - write once, use everywhere
+Maintainability - if UI changes, update in one place
+Readability - test scripts become clean and easy to understand
+Scalability - works well for large projects
+
+
+Steps to create POM:
+---------------------
+
+1) Create new workspace 
+2) Install Playwright using command "npm init playwright@latest" from the root directory
+3) Add "type": "module",in package.json{} file
+4) Create folder "pages" under tests for reusable .ts pages 
+5) Create the spec.file to import all the pages and execute the module
+
+Home Assignment:
+---------------
+
+Create Account module using POM.
+
