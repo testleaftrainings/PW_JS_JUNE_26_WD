@@ -1,0 +1,99 @@
+📑 Agenda for Week6 Day3 - 
+Custom fixture
+breakout + break
+Visual Regression testing
+
+Custom fixture:
+---------------
+
+page,context, request -> inbuilt fixture of Playwright
+customized fixture
+
+browser->newcontext->newpage
+
+Custom fixture in Playwright is a reusable setup block.
+It helps you write common steps once (like login) and reuse them in multiple tests.
+
+Steps to create custom fixture:
+-------------------------------
+
+Import → Extend → Define → Perform actions → Use
+
+
+Step 1: Import required modules
+
+ex: import { test as login} from '@playwright/test'
+
+Step 2: Create custom fixture
+extend the playwright test to define new fixture
+
+export const customFixture = login.extend<{ salesForceLogin: any }>({})
+
+Step 3: Define fixture function
+create the async function with page and use to write the logic.
+
+salesForceLogin: async ({ page }, use) => {
+
+Step 4: Perform actions (Login steps)
+
+Open URL
+Enter username & password
+Click login
+Wait for page load
+
+step 5: Use the fixture
+await use(page)
+
+Classroom1: Create the custom fixture for LeafTaps login.
+
+steps: 
+
+Import base test and required types
+Extend the base test using .extend()
+Create a fixture method (LeafTaps login logic)
+Perform login steps inside fixture
+
+url:https://leaftaps.com/opentaps/control/main
+Username: democsr, democsr2
+Password: crmsfa
+
+Use use() to pass the logged-in page
+Export the customized test
+Import and use it in test files
+
+example script for salesforce login using custom fixture
+import {test as base,Page} from "@playwright/test"
+//test=customFixture, page=salesForceLogin
+
+export const customFixture=base.extend<{salesForceLogin:any}>({
+
+salesForceLogin:async({page}:{page:Page},use:(page:Page)=>any)=>{
+
+    await page.goto("https://login.salesforce.com/")
+    await page.locator('#username').fill('dilipkumar.rajendran@testleaf.com')
+    await page.locator('#password').fill('TestLeaf@2025')
+    await page.locator('#Login').click()
+    await page.waitForTimeout(5000)
+    await use(page)
+
+}
+
+})
+
+import {customFixture} from "./customfix"
+
+customFixture('Click on Accounts', async({salesForceLogin})=>{
+
+const Title=await salesForceLogin.title()
+console.log(Title);
+
+
+await salesForceLogin.locator('//span[text()="Accounts"]').first().click()
+
+
+})
+
+
+Visual Regression Testing:
+Compare webpage screenshots to detect visual changes and useful for ensuring UI 
+consistency across all updates
