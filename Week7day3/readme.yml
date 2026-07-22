@@ -1,0 +1,168 @@
+📑 Agenda for Week7 Day3 - Playwright with API ServiceNow
+
+
+Parameter: Parameters in API are values sent with a request to pass data, filter results, 
+identify records, or control behavior.
+
+Path Parameter and query Parameter:
+Url / ->  Path Parameter
+?  -> query parameter
+
+ex:
+
+https://dev231684.service-now.com/api/now/table/incident/d43c58cbc3d00f108a6af5fc050131d9?sysparm_fields=description
+
+URL= https://dev231684.service-now.com
+path=/api/now/table/incident (identifies specific resource inside URL)
+Query= sysparm_fields=description  => sent after ? in the url used to filter, search and sort the data.
+
+
+
+Playwright with API:
+--------------------
+
+Request fixture:  Built-in fixture used for API testing in Playwright. It provides request 
+context to send HTTP 
+requests and validate responses inside Playwright test cases.
+
+we can get the context information without launching the browser.
+
+
+Browser-context:
+----------------
+
+ /* test('launch browser,async()=>{
+ const browser=await chromium.launch({channel:"msedge"})
+ const context=await browser.newContext()
+ const page= await context.newPage()
+ }) 
+ 
+ 
+ replacing with page fixture
+ test('launch browser,async({page})=>{
+ })
+ */
+
+ Request fixture: API
+ --------------------
+
+ /* test('create request ', async()=>{
+
+    const browser=await chromium.launch();
+    const context=await browser.newContext();
+    const request= context.request
+    })
+
+
+    request fixture-Inbuilt fixture from Playwright
+    -----------------------------------------------
+
+    test('create request ', async({request})=>{
+    }) */
+
+
+
+====================================================================================================================
+Developer login to get the Instance URL and login credentials:
+
+Servicenow: https://dev217512.service-now.com/
+
+instance url: https://dev217512.service-now.com
+username : admin
+password : sI1nt+$zA9RD
+
+Generate accessToken:
+
+serviceNow document to get endpoint to generate access token:
+------------------------------------------------------------
+
+https://www.servicenow.com/docs/search?content-lang=en-US&query=oauth+api+request+parameters
+
+endpoint:https://instancename.service-now.com/oauth_token.do
+headers:{
+Content-Type": "application/x-www-form-urlencoded
+//Used to send login details as key=value form data.
+},
+form:{
+  "grant_type": "password",
+  "client_id": "",
+  "client_secret": "",
+  "username": "admin",
+  "password": "sI1nt+$zA9RD"
+}
+
+
+
+Create request(post):
+---------------------
+
+http methods to use request fixture Ex: let response=await request.post()
+end point:https://dev217512.service-now.com/api/now/table/incident
+header+authentication
+data(body)
+
+
+syntax:
+-------
+
+test('create incident',async({request)=>{
+
+// serialization-converting object to json
+
+let response= await request.post('endpoint',
+
+{
+
+headers:
+{
+"Content-Type":"application/json",
+"Authorization":"Basic Auth" (can be encryt using inbuil method)
+},
+
+data:
+{
+"description":"Playwright with API"
+}
+})
+
+/* get the response and use assertions to verify it */
+
+let resbody=await response.json()   //json to object (Deserialization)
+
+})
+
+
+Encryption:
+-----------
+
+1) Build in method (btoa) Binary to ascii
+// btoa() is a JavaScript built-in function used to encode a string into Base64 format
+
+const username="admin"
+const password="sooM+H@w1P2P"
+const login=`${username}:{password}`
+const value=btoa(login)
+console.log(value)
+
+
+2) url to encode
+https://www.base64encode.org/
+
+ex: username:password-> click on Encode
+admin:sooM+H@w1P2P ->YWRtaW46c29vTStIQHcxUDJQ
+
+
+status code and text in Servicenow:
+
+1) post->201 created
+2) get->200 ok
+3) patch->200 ok
+4) delete->204 No content
+
+
+Classroom: 
+Create Change Request using Playwright API CRUD for ServiceNow
+
+instance url: https://dev217512.service-now.com
+username : admin
+password : sI1nt+$zA9RD
