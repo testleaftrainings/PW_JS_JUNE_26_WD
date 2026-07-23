@@ -1,0 +1,78 @@
+Agenda for Week7 Day4 - 
+Salesforce integration with Playwright API.
+UI with API integration
+break
+breakout 
+
+Introduction to Salesforce API
+Generate Access Token
+POST Request
+GET Request
+PATCH Request
+DELETE Request
+Validate Response
+End-to-End Scenario
+
+
+
+Step 1:
+-------
+
+Salesforce document to get endpoint to generate access token:
+------------------------------------------------------------
+
+endpoint:https://login.salesforce.com/services/oauth2/token
+headers:{
+Content-Type": "application/x-www-form-urlencoded
+//Used to send login details as key=value form data.
+},
+form:{
+  "grant_type": "password",
+  "client_id": "3MVG9rZjd7MXFdLhTFd7jYNtTiu5DzDqdNCte5DvFnv7tbIspjQ9CGPizYGUq7h6T69VSmfqxT9yY2NS7tz84",
+  "client_secret": "09FE1EF4BDD93B17821073243A441F8A780A639C21D925B575C1112A3F5E0DBE",
+  "username": "yuvarani.sekar@testleaf.com",
+  "password": "Testleaf@2027"
+}
+
+
+
+Step 2:
+
+create Lead
+===========
+
+endpoint: https://orgfarm-6d28dcc693-dev-ed.develop.my.salesforce.com/services/data/v65.0/sobjects/Lead
+
+header:{
+Content-Type,
+Authorization
+}
+data:{
+}
+
+step 3: 
+
+Capture response ID and store globally to use it for next steps like fetch, update, delete, and UI verification.
+
+step 4:
+
+Login to Salesforce UI.
+Search created Lead using Lead ID or Name.
+Use assertion to verify the status and status text.
+
+await page.goto('https://login.salesforce.com/?locale=in')
+   await page.getByText('Username',{exact:true}).fill('yuvarani.sekar@testleaf.com')
+   await page.getByLabel('Password').fill('Testleaf@2027')
+   await page.getByRole('button',{name:'Log In'}).click()
+   await page.waitForTimeout(15000)
+   await page.getByTitle('App Launcher',{exact:true}).click()
+   await page.waitForTimeout(3000)
+   await page.waitForLoadState('domcontentloaded')
+   await page.getByLabel('View All Applications',{exact:true}).click()
+
+
+
+Classroom Activity:
+-------------------
+
+Write a Playwright API script to perform CRUD operations for Salesforce Account.
